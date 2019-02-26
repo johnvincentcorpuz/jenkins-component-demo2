@@ -132,6 +132,8 @@ def notify_commit_status(result){
           context: "jenkins/unit-tests"
         ]
 
+        payload = JsonOutput.toJson(payload)
+
         def url = "https://api.github.com/repos/${gitOrg}/${gitRepo}/statuses/${env.GIT_COMMIT}"
         print "statusUrl: ${url}"
         httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
