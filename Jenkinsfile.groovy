@@ -88,6 +88,16 @@ pipeline {
             timestamps {
                 script {
                     echo "success"
+
+                    if (pullRequest){
+                        pullRequest.createStatus(status: 'success',
+                         context: 'continuous-integration/jenkins/pr-merge/tests',
+                         description: 'All tests are passing',
+                         targetUrl: "${env.JOB_URL}/testResults")
+
+                    }
+               
+
                 }
             }
         }
