@@ -83,7 +83,7 @@ pipeline {
             timestamps {
                 echo "Finished Running Job"
                 echo "Environment Variables"
-                printenv
+                sh('printenv')
             }
         }
         success {
