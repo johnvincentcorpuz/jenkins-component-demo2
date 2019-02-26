@@ -58,6 +58,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+                checkout scm
                 script {
                     sh('ls')
                 }
