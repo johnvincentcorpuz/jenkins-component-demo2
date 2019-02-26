@@ -1,3 +1,6 @@
+import groovy.json.JsonOutput;
+
+
 pipeline {
 
     agent any
@@ -91,20 +94,7 @@ pipeline {
             timestamps {
                 script {
                     echo "success"
-                    // githubNotify description: 'This is a shorted example',  status: 'SUCCESS'
-                    // githubNotify account: 'johnvincentcorpuz', context: 'Final Test', credentialsId: johngithub,
-                    //     description: 'This is an example', repo: 'jenkins-component-demo2', sha: env.GITHUB_PR_HEAD_SHA, status: 'SUCCESS', targetUrl: 'https://my-jenkins-instance.com'
-                    def payload = """{
-                                "state": "success",
-                                "target_url": "https://example.com/build/status",
-                                "description": "The build succeeded!",
-                                "context": "continuous-integration/jenkins"}"""
-
-                    //def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GITHUB_BRANCH_HEAD_SHA}"
-                    def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GIT_COMMIT}"
-                    print "statusUrl: ${url}"
-                    httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
-               
+                    notify_commit_status("success")
                 }
             }
         }
@@ -112,6 +102,7 @@ pipeline {
             timestamps {
                 script {
                     echo "sending failure message"
+                    notify_commit_status("failure")
                 }
             }
         }
@@ -119,6 +110,7 @@ pipeline {
             timestamps {
                 script {
                     echo "aborted failure message"
+                    notify_commit_status("error")
                 }
             }
         }
@@ -126,4 +118,23 @@ pipeline {
 }
 
 
+@NonCPS
+def notify_commit_status(result){
+        //GIT_URL=https://github.com/johnvincentcorpuz/jenkins-component-demo2.git
+        def gitInfo = env.GIT_URL.minus("https://").minus(".git").split("/")
+        def gitOrg = gitInfo[0]
+        def gitRepo = gitInfo[1]
+        
+        def payload = [
+          state: "${result}",
+          target_url: "${env.BUILD_URL}",
+          description: "Unit Test Passed"
+          context: "jenkins/unit-tests"
+        ]
 
+        def url = "https://api.github.com/repos/${gitOrg}/${gitRepo}/statuses/${env.GIT_COMMIT}"
+        print "statusUrl: ${url}"
+        httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
+
+
+}
