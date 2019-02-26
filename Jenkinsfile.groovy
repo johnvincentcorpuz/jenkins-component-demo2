@@ -100,7 +100,8 @@ pipeline {
                                 "description": "The build succeeded!",
                                 "context": "continuous-integration/jenkins"}"""
 
-                    def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GITHUB_BRANCH_HEAD_SHA}"
+                    //def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GITHUB_BRANCH_HEAD_SHA}"
+                    def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GIT_COMMIT}"
                     print "statusUrl: ${url}"
                     httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
                
