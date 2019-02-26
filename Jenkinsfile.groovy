@@ -77,8 +77,11 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh ('ls')
-                sh ('exit 1')
+                script {
+                    sh ('ls')
+                    sh ('exit 1')
+                }
+
             }
         }
     }
