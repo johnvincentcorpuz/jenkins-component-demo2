@@ -94,7 +94,7 @@ pipeline {
                     // githubNotify description: 'This is a shorted example',  status: 'SUCCESS'
                     // githubNotify account: 'johnvincentcorpuz', context: 'Final Test', credentialsId: johngithub,
                     //     description: 'This is an example', repo: 'jenkins-component-demo2', sha: env.GITHUB_PR_HEAD_SHA, status: 'SUCCESS', targetUrl: 'https://my-jenkins-instance.com'
-                    // def payload = """
+                    def payload = """
                          {
                               "state": "success",
                               "target_url": "https://example.com/build/status",
