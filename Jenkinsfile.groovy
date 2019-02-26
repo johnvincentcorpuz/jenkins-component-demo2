@@ -99,7 +99,10 @@ pipeline {
                                 "target_url": "https://example.com/build/status",
                                 "description": "The build succeeded!",
                                 "context": "continuous-integration/jenkins"}"""
-                    httpRequest acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: "${env.GITHUB_PR_HEAD_SHA}"
+
+                    def url = "https://api.github.com/repos/johnvincentcorpuz/jenkins-component-demo2/statuses/${env.GITHUB_PR_HEAD_SHA}"
+                    print "statusUrl: ${url}"
+                    httpRequest acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
                
                 }
             }
