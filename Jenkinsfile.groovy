@@ -121,7 +121,7 @@ pipeline {
 @NonCPS
 def notify_commit_status(result){
         //GIT_URL=https://github.com/johnvincentcorpuz/jenkins-component-demo2.git
-        def gitInfo = env.GIT_URL.minus("https://").minus(".git").split("/")
+        def gitInfo = env.GIT_URL.minus("https://github.com/").minus(".git").split("/")
         def gitOrg = gitInfo[0]
         def gitRepo = gitInfo[1]
         
