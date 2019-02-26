@@ -128,7 +128,7 @@ def notify_commit_status(result){
         def payload = [
           state: "${result}",
           target_url: "${env.BUILD_URL}",
-          description: "Unit Test Passed"
+          description: "Unit Test Passed",
           context: "jenkins/unit-tests"
         ]
 
