@@ -78,6 +78,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh ('ls')
+                sh ('exit 1')
             }
         }
     }
@@ -125,6 +126,11 @@ def notify_commit_status(result){
         def gitOrg = gitInfo[0]
         def gitRepo = gitInfo[1]
         
+        //Todo: Enable in Jenkins Prod
+        // def gitInfo = gitUrl.minus("git@github.com:").minus(".git").split("/")
+        // def gitOrg =  gitInfo[0]
+        // def gitRepo = gitInfo[1]
+
         def payload = [
           state: "${result}",
           target_url: "${env.BUILD_URL}",
