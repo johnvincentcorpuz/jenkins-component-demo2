@@ -82,15 +82,16 @@ pipeline {
         always {
             timestamps {
                 echo "Finished Running Job"
+                echo "Environment Variables"
+                printenv
             }
         }
         success {
             timestamps {
                 script {
                     echo "success"
-                    githubNotify description: 'This is a shorted example',  status: 'SUCCESS'
+                    // githubNotify description: 'This is a shorted example',  status: 'SUCCESS'
                
-
                 }
             }
         }
