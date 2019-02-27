@@ -131,7 +131,7 @@ def getBranchHead(org,repository,branch) {
     print response.status
     print response.content
 
-    def parser = new JsonSlurper().setType(JsonParserType.LAX)
+    def parser = new JsonSlurper()
     def jsonResp = parser.parseText(response.content)
 
     return jsonResp?.object?.sha
