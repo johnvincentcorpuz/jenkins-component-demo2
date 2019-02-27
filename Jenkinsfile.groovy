@@ -125,7 +125,16 @@ pipeline {
 
 def getBranchHead(org,repository,branch) {
 
+    def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
+    withCredentials([string(credentialsId: 'gitPrivateToken', variable: 'GITHUB_TOKEN')]) {
+        details = sh(
+                    script: "curl --header 'Authorization: token GITHUB_TOKEN' 'https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}' | jq -r '.commits'",
+                    returnStdout: true
+                    ).trim()
 
+    }
+
+    
     def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
     def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
     print response.status
