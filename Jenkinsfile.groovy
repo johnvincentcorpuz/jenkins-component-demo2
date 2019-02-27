@@ -159,6 +159,7 @@ def notify_commit_status(result){
 
     //Todo: Change GIT_HUB_BRANCH_NAME to BRANCH_NAME, plugin dependents
     def test = getBranchHead(gitOrg,gitRepo,env.BRANCH_NAME)
+    print("branchHead:${test}")
 
 
 
@@ -173,7 +174,7 @@ def notify_commit_status(result){
     payload = JsonOutput.toJson(payload)
 
     def url = "https://api.github.com/repos/${gitOrg}/${gitRepo}/statuses/${env.GIT_COMMIT}"
-    print "statusUrl: ${url}"
+    //print "statusUrl: ${url}"
     httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
 
 }
