@@ -141,6 +141,7 @@ def notify_commit_status(result){
     //GITHUB_REPO_SSH_URL=git@github.com:johnvincentcorpuz/jenkins-component-demo2.git
     //def gitInfo = env.GITHUB_REPO_SSH_URL.minus("git@github.com:").minus(".git").split("/")
     def gitInfo= scm.userRemoteConfigs[0].url
+    print gitInfo
     def gitOrg =  gitInfo[0]
     def gitRepo = gitInfo[1]
         
