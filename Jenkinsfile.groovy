@@ -169,6 +169,14 @@ def notify_commit_status(result){
     def test = getBranchHead(gitOrg,gitRepo,env.BRANCH_NAME)
     print("branchHead:${test}")
 
+    def requestUrl = "https://api.github.com/repos/${gitOrg}/${gitRepo}/git/refs/heads/${env.BRANCH_NAME}"
+    try {
+         def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
+         print response.code
+         print response.content
+    } catch (e) {
+        e.printStackTrace
+    }
 
 
 
