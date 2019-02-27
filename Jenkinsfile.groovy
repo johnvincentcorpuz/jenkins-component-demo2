@@ -128,10 +128,11 @@ def getBranchHead(org,repository,branch) {
 
     def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
     withCredentials([string(credentialsId: 'gitPrivateToken', variable: 'GITHUB_TOKEN')]) {
-        def gitHubBranchHead = new RESTClient( 'https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}' )
-        gitHubBranchHead.headers.'Authorization' = "token ${GITHUB_TOKEN}"
-        def resp = gitHubBranchHead.get()
-        print resp
+        def details = sh(
+                    script: "curl --header 'Authorization: token GITHUB_TOKEN' 'https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}'",
+                    returnStdout: true
+                    ).trim()
+
     }
 
     
