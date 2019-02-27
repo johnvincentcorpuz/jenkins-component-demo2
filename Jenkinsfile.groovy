@@ -122,7 +122,7 @@ pipeline {
 }
 
 
-@NonCPS
+
 def getBranchHead(org,repository,branch) {
 
 
