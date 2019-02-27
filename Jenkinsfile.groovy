@@ -155,7 +155,7 @@ def notify_commit_status(result){
     // def gitRepo = gitInfo[1]
 
     //Todo: Change GIT_HUB_BRANCH_NAME to BRANCH_NAME, plugin dependents
-    def test = getBranchHead(gitOrg,gitRepo,env.GITHUB_BRANCH_NAME)
+    def test = getBranchHead(gitOrg,gitRepo,env.BRANCH_NAME)
 
 
 
