@@ -135,6 +135,8 @@ def getBranchHead(org,repository,branch) {
     def jsonResp = parser.parseText(response.content)
     print("Json Response is:${jsonResp}")
 
+    return JsonResp?.object?.sha
+
 }
 
 
