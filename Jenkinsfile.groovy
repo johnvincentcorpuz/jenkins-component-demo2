@@ -142,10 +142,13 @@ def notify_commit_status(result){
     //def gitInfo = env.GITHUB_REPO_SSH_URL.minus("git@github.com:").minus(".git").split("/")
     def gitInfo= scm.userRemoteConfigs[0].url
     gitInfo = gitInfo.minus("git@github.com:").minus(".git").split("/")
-    print gitInfo
+    print("git Info: ${gitInfo}")
     def gitOrg =  gitInfo[0]
     def gitRepo = gitInfo[1]
         
+    print("Git ORG: ${gitOrg}")
+    print("Git Repo: ${gitRepo}")
+
     //Todo: Enable in Jenkins Prod
     // def gitInfo = gitUrl.minus("git@github.com:").minus(".git").split("/")
     // def gitOrg =  gitInfo[0]
