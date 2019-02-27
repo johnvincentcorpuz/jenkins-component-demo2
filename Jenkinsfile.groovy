@@ -134,9 +134,8 @@ def getBranchHead(org,repository,branch) {
     }
 
     print ("Dont Return") 
-    def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
 
-    print("Reponse Code: ${response.code}")
+    print("Reponse Code: ${response.status}")
     print("Reponse Content: ${response.content}")
 
     def parser = new JsonSlurper().setType(JsonParserType.LAX)
@@ -172,7 +171,7 @@ def notify_commit_status(result){
     def requestUrl = "https://api.github.com/repos/${gitOrg}/${gitRepo}/git/refs/heads/${env.BRANCH_NAME}"
  
     def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
-    print response.code
+    print response.status
     print response.content
 
 
