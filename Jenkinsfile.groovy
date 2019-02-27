@@ -135,7 +135,6 @@ def getBranchHead(org,repository,branch) {
     }
 
     
-    def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
     def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
     print response.status
     print response.content
