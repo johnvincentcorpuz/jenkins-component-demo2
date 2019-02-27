@@ -1,5 +1,5 @@
 import groovy.json.JsonOutput;
-
+import groovy.json.JsonSlurper
 
 pipeline {
 
@@ -123,29 +123,48 @@ pipeline {
 
 
 @NonCPS
-def notify_commit_status(result){
-        //GIT_URL=https://github.com/johnvincentcorpuz/jenkins-component-demo2.git
-        def gitInfo = env.GIT_URL.minus("https://github.com/").minus(".git").split("/")
-        def gitOrg = gitInfo[0]
-        def gitRepo = gitInfo[1]
-        
-        //Todo: Enable in Jenkins Prod
-        // def gitInfo = gitUrl.minus("git@github.com:").minus(".git").split("/")
-        // def gitOrg =  gitInfo[0]
-        // def gitRepo = gitInfo[1]
+def getBranchHead(org,repository,branch) {
 
-        def payload = [
+
+    def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
+    def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
+    print("Reponse Code: ${response.code}")
+    print("Reponse Content: ${response.content}")
+
+    def parser = new JsonSlurper().setType(JsonParserType.LAX)
+    def jsonResp = parser.parseText(response.content)
+
+}
+
+
+def notify_commit_status(result){
+    //GITHUB_REPO_SSH_URL=git@github.com:johnvincentcorpuz/jenkins-component-demo2.git
+    def gitInfo = env.GITHUB_REPO_SSH_URL.minus("git@github.com:").minus(".git").split("/")
+    def gitOrg =  gitInfo[0]
+    def gitRepo = gitInfo[1]
+        
+    //Todo: Enable in Jenkins Prod
+    // def gitInfo = gitUrl.minus("git@github.com:").minus(".git").split("/")
+    // def gitOrg =  gitInfo[0]
+    // def gitRepo = gitInfo[1]
+
+    //Todo: Change GIT_HUB_BRANCH_NAME to BRANCH_NAME, plugin dependents
+    def test = getBranchHead(gitOrg,gitRepo,env.GITHUB_BRANCH_NAME)
+
+
+
+
+    def payload = [
           state: "${result}",
           target_url: "${env.BUILD_URL}",
           description: "Unit Test Passed",
           context: "jenkins/unit-tests"
         ]
 
-        payload = JsonOutput.toJson(payload)
+    payload = JsonOutput.toJson(payload)
 
-        def url = "https://api.github.com/repos/${gitOrg}/${gitRepo}/statuses/${env.GIT_COMMIT}"
-        print "statusUrl: ${url}"
-        httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
-
+    def url = "https://api.github.com/repos/${gitOrg}/${gitRepo}/statuses/${env.GIT_COMMIT}"
+    print "statusUrl: ${url}"
+    httpRequest authentication: 'johngithub', acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: payload, url: url
 
 }
