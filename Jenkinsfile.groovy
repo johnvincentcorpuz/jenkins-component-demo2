@@ -133,6 +133,7 @@ def getBranchHead(org,repository,branch) {
 
     def parser = new JsonSlurper().setType(JsonParserType.LAX)
     def jsonResp = parser.parseText(response.content)
+    print("Json Response is:${jsonResp}")
 
 }
 
