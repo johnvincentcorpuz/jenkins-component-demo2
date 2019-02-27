@@ -127,16 +127,9 @@ def getBranchHead(org,repository,branch) {
 
 
     def requestUrl = "https://api.github.com/repos/${org}/${repository}/git/refs/heads/${branch}"
-    try {
-         def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
-    } catch (e) {
-        e.printStackTrace
-    }
-
-    print ("Dont Return") 
-
-    print("Reponse Code: ${response.status}")
-    print("Reponse Content: ${response.content}")
+    def response = httpRequest authentication: 'johngithub', httpMode: 'GET', url: requestUrl
+    print response.status
+    print response.content
 
     def parser = new JsonSlurper().setType(JsonParserType.LAX)
     def jsonResp = parser.parseText(response.content)
